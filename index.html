@@ -185,5 +185,34 @@ fetch('log_ip.php')
 
 
 </html>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Показать IP-адрес</title>
+</head>
+<body>
+
+    <h1>Ваш IP-адрес:</h1>
+    <p id="ip"></p> <!-- Здесь будет отображаться IP-адрес -->
+
+    <script>
+        // Получаем IP-адрес с помощью ip-api.com
+        fetch('http://ip-api.com/json')
+            .then(response => response.json())
+            .then(data => {
+                // Получаем IP-адрес и отображаем его на странице
+                document.getElementById('ip').textContent = data.query;
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                document.getElementById('ip').textContent = "Не удалось получить IP-адрес";
+            });
+    </script>
+
+</body>
+</html>
+
 
 
