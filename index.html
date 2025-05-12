@@ -135,6 +135,48 @@ s0.parentNode.insertBefore(s1,s0);
 })();
 </script>
 <!--End of Tawk.to Script-->
+  <body> <canvas id="starCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
+<script>
+  const canvas = document.getElementById('starCanvas');
+  const ctx = canvas.getContext('2d');
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  const stars = [];
+
+  for (let i = 0; i < 300; i++) {
+    stars.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() < 0.1 ? 2 + Math.random() * 2 : 0.5 + Math.random() * 1,
+      alpha: Math.random(),
+      delta: Math.random() * 0.02
+    });
+  }
+
+  function drawStars() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let star of stars) {
+      ctx.beginPath();
+      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(0, 255, 0, ${star.alpha})`;
+      ctx.fill();
+      star.alpha += star.delta;
+      if (star.alpha <= 0 || star.alpha >= 1) {
+        star.delta = -star.delta;
+      }
+    }
+    requestAnimationFrame(drawStars);
+  }
+
+  drawStars();
+</script>
+
 </html>
 
 
