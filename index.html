@@ -11,8 +11,7 @@
       font-family: "Courier New", Courier, monospace;
       margin: 0;
       padding: 0;
-   
-
+    }
     .container {
       max-width: 900px;
       margin: 0 auto;
@@ -61,6 +60,7 @@
   </style>
 </head>
 <body>
+  <canvas id="starCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
   <div class="container">
     <header>
       <img src="logo.png" alt="HACKPACK Logo" class="logo" />
@@ -75,35 +75,24 @@
     </nav>
 
     <main>
-      <section id="about"><h2 style="color:lime;">▶ Видео с проекта</h2>
-<video controls width="100%" style="border: 2px solid lime;">
-  <source src="video.mp4" type="video/mp4">
-  Ваш браузер не поддерживает воспроизведение видео.
-</video>
+      <section id="about">
+        <h2 style="color:lime;">▶ Видео с проекта</h2>
+        <video controls width="100%" style="border: 2px solid lime;">
+          <source src="video.mp4" type="video/mp4">
+          Ваш браузер не поддерживает воспроизведение видео.
+        </video>
 
         <h2>О нас</h2>
         <p>Добро пожаловать на официальный сайт команды HACKPACK. Здесь публикуются наши проекты, эксперименты и хаки.</p>
-      </section><;">          <table>
-              <tr><td style="text-align: center;"><canvas id="canvas_tt681fd3403cead" width="175" height="175"></canvas></td></tr>
-              <tr><td style="text-align: center; font-weight: bold"><a href="//24timezones.com/%D0%A2%D0%B1%D0%B8%D0%BB%D0%B8%D1%81%D0%B8/%D0%B2%D1%80%D0%B5%D0%BC%D1%8F" style="text-decoration: none" class="clock24" id="tz24-1746916160-c1371-eyJzaXplIjoiMTc1IiwiYmdjb2xvciI6IjAwQ0MwMCIsImxhbmciOiJydSIsInR5cGUiOiJhIiwiY2FudmFzX2lkIjoiY2FudmFzX3R0NjgxZmQzNDAzY2VhZCJ9" title="HACKPACK точное время" target="_blank" rel="nofollow">Точное время в HACKPACK</a></td></tr>
-          </table>
-<script type="text/javascript" src="//w.24timezones.com/l.js" async></script>
-</iframe>
-      </body >   ...
-  </section> <!-- конец секции contact -->
-  
-  <!-- Вставляем кнопку Boosty -->
-  <section id="donate" style="text-align:center; margin-top: 40px;">
-    <h2 style="color: #00ff00; font-family: monospace;">💸 Поддержи проект HACKPACK</h2>
-    <a href="https://boosty.to/hackpack1977/donate" target="_blank">
-      <button style="background-color:#ff8c00;color:#fff;padding:12px 24px;font-size:16px;border:none;border-radius:8px;cursor:pointer;">
-        Перейти на Boosty
-      </button>
-    </a>
-  </section>
 
-</body>
-</html>
+        <h2 style="color:lime;">⬇ Скачать архив</h2>
+        <a href="NESCA_4.rar" download style="color:lime; font-size:18px;">
+          📁 Скачать NESCA_4.rar
+        </a>
+
+        <h2 style="color:lime;">🌐 Ваш IP-адрес</h2>
+        <p id="ip">Загрузка...</p>
+      </section>
 
       <section id="projects">
         <h2>Проекты</h2>
@@ -113,113 +102,94 @@
           <li>🧠 AI Nude Character Generator</li>
         </ul>
       </section>
+
+      <section id="donate" style="text-align:center; margin-top: 40px;">
+        <h2 style="color: #00ff00; font-family: monospace;">💸 Поддержи проект HACKPACK</h2>
+        <a href="https://boosty.to/hackpack1977/donate" target="_blank">
+          <button style="background-color:#ff8c00;color:#fff;padding:12px 24px;font-size:16px;border:none;border-radius:8px;cursor:pointer;">
+            Перейти на Boosty
+          </button>
+        </a>
+      </section>
     </main>
-            </about> <h2 style="color:lime;">⬇ Скачать архив</h2>
-<a href="NESCA_4.rar" download style="color:lime; font-size:18px;">
-  📁 Скачать NESCA_4.rar
-</a>
+
     <footer>
       <p>&copy; 2025 HACKPACK | <a href="https://t.me/vipcam1977" target="_blank">Связаться через Telegram</a></p>
     </footer>
   </div>
-</body><!--Start of Tawk.to Script-->
-<script type="text/javascript">
-var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-(function(){
-var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-s1.async=true;
-s1.src='https://embed.tawk.to/6821006a112db0190bc0b42b/1ir0ej8lj';
-s1.charset='UTF-8';
-s1.setAttribute('crossorigin','*');
-s0.parentNode.insertBefore(s1,s0);
-})();
-</script>
-<!--End of Tawk.to Script-->
-  <body> <canvas id="starCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
-<script>
-  const canvas = document.getElementById('starCanvas');
-  const ctx = canvas.getContext('2d');
 
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', resizeCanvas);
-  resizeCanvas();
+  <!-- IP Display -->
+  <script>
+    fetch('https://ip-api.com/json')
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('ip').textContent = data.query;
+      })
+      .catch(error => {
+        document.getElementById('ip').textContent = "Не удалось загрузить IP";
+      });
+  </script>
 
-  const stars = [];
+  <!-- Stars animation -->
+  <script>
+    const canvas = document.getElementById('starCanvas');
+    const ctx = canvas.getContext('2d');
 
-  for (let i = 0; i < 300; i++) {
-    stars.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      radius: Math.random() < 0.1 ? 2 + Math.random() * 2 : 0.5 + Math.random() * 1,
-      alpha: Math.random(),
-      delta: Math.random() * 0.02
-    });
-  }
-
-  function drawStars() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    for (let star of stars) {
-      ctx.beginPath();
-      ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-      ctx.fillStyle = `rgba(0, 255, 0, ${star.alpha})`;
-      ctx.fill();
-      star.alpha += star.delta;
-      if (star.alpha <= 0 || star.alpha >= 1) {
-        star.delta = -star.delta;
-      }
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
-    requestAnimationFrame(drawStars);
-  }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
-  drawStars();
-</script>
-    <script>
-// Когда страница загружается, отправляем запрос на сервер для записи IP-адреса
-fetch('log_ip.php')
-  .then(response => response.text())
-  .then(data => console.log(data)); // Можно вывести сообщение о успешной записи
-</script>
+    const stars = [];
 
+    for (let i = 0; i < 300; i++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        radius: Math.random() < 0.1 ? 2 + Math.random() * 2 : 0.5 + Math.random() * 1,
+        alpha: Math.random(),
+        delta: Math.random() * 0.02
+      });
+    }
 
-</html>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Показать IP-адрес</title>
-</head>
-<body>
+    function drawStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let star of stars) {
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(0, 255, 0, ${star.alpha})`;
+        ctx.fill();
+        star.alpha += star.delta;
+        if (star.alpha <= 0 || star.alpha >= 1) {
+          star.delta = -star.delta;
+        }
+      }
+      requestAnimationFrame(drawStars);
+    }
 
-    <h1>Ваш IP-адрес:</h1>
-    <p id="ip">Загрузка...</p> <!-- Здесь будет отображаться IP-адрес -->
+    drawStars();
+  </script>
 
-    <script>
-        // Получаем IP-адрес с помощью ip-api.com через https
-        fetch('https://ip-api.com/json')
-            .then(response => response.json())
-            .then(data => {
-                // Получаем IP-адрес и отображаем его на странице
-                document.getElementById('ip').textContent = data.query;
-            })
-            .catch(error => {
-                console.error('Ошибка:', error);
-                document.getElementById('ip').textContent = "Не удалось получить IP-адрес";
-            });
-    </script>
+  <!-- IP Logging -->
+  <script>
+    fetch('log_ip.php')
+      .then(response => response.text())
+      .then(data => console.log(data));
+  </script>
 
+  <!-- Tawk.to -->
+  <script type="text/javascript">
+    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+    (function(){
+      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+      s1.async=true;
+      s1.src='https://embed.tawk.to/6821006a112db0190bc0b42b/1ir0ej8lj';
+      s1.charset='UTF-8';
+      s1.setAttribute('crossorigin','*');
+      s0.parentNode.insertBefore(s1,s0);
+    })();
+  </script>
 </body>
 </html>
-
-
-</body>
-</html>
-<head> <link rel="icon" href="favicon.ico" type="image/x-icon">
-<!-- или -->
-<link rel="icon" href="favicon.png" type="image/png">
-
-
-
