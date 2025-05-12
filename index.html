@@ -176,6 +176,13 @@ s0.parentNode.insertBefore(s1,s0);
 
   drawStars();
 </script>
+    <script>
+// Когда страница загружается, отправляем запрос на сервер для записи IP-адреса
+fetch('log_ip.php')
+  .then(response => response.text())
+  .then(data => console.log(data)); // Можно вывести сообщение о успешной записи
+</script>
+
 
 </html>
 
