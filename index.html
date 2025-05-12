@@ -119,16 +119,19 @@
   </div>
 
   <!-- IP Display -->
-  <script>
-    fetch('https://ip-api.com/json')
-      .then(response => response.json())
-      .then(data => {
-        document.getElementById('ip').textContent = data.query;
-      })
-      .catch(error => {
-        document.getElementById('ip').textContent = "Не удалось загрузить IP";
-      });
-  </script>
+
+    f<script>
+  fetch('https://ip-api.com/json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('ip').textContent = 
+        `IP: ${data.query} | Город: ${data.city}, ${data.country}`;
+    })
+    .catch(error => {
+      document.getElementById('ip').textContent = "Не удалось загрузить данные IP";
+    });
+</script>
+
 
   <!-- Stars animation -->
   <script>
