@@ -120,27 +120,26 @@
 
   <!-- IP Display -->
 
-    f<script>
-<div id="ip">Загрузка IP...</div>
-
-<script>
- <h2>🌐 Ваш IP-адрес</h2>
+    f<script><h2 style="color:lime;">🌐 Ваш IP-адрес</h2>
 <p id="ip-info">Загрузка...</p>
 
 <script>
-fetch('https://ipwho.is/')
-  .then(res => res.json())
-  .then(data => {
-    if (data.success) {
-      document.getElementById('ip-info').textContent =
-        `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
-    } else {
-      document.getElementById('ip-info').textContent = 'Не удалось определить IP.';
-    }
-  })
-  .catch(() => {
-    document.getElementById('ip-info').textContent = 'Ошибка при получении данных.';
-  });
+  fetch('https://ipwho.is/')
+    .then(res => res.json())
+    .then(data => {
+      if (data.success) {
+        document.getElementById('ip-info').textContent =
+          `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
+      } else {
+        document.getElementById('ip-info').textContent = 'Не удалось определить IP.';
+      }
+    })
+    .catch(() => {
+      document.getElementById('ip-info').textContent = 'Ошибка при получении данных.';
+    });
+</script>
+
+
 </script>
 
 
