@@ -121,16 +121,25 @@
   <!-- IP Display -->
 
     f<script>
-  fetch('https://ip-api.com/json')
+<div id="ip">Загрузка IP...</div>
+
+<script>
+  fetch('https://ipwho.is/')
     .then(response => response.json())
     .then(data => {
-      document.getElementById('ip').textContent = 
-        `IP: ${data.query} | Город: ${data.city}, ${data.country}`;
+      if (data.success) {
+        document.getElementById('ip').textContent = 
+          `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
+      } else {
+        document.getElementById('ip').textContent = "Ошибка: " + data.message;
+      }
     })
     .catch(error => {
-      document.getElementById('ip').textContent = "Не удалось загрузить данные IP";
+      document.getElementById('ip').textContent = "Не удалось загрузить IP";
     });
 </script>
+
+
 
 
   <!-- Stars animation -->
