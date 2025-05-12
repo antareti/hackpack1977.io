@@ -2,198 +2,173 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HACKPACK</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HACKPACK Terminal</title>
   <style>
     body {
-      background-color: #000000;
-      color: #00ff00;
-      font-family: "Courier New", Courier, monospace;
       margin: 0;
-      padding: 0;
+      background: black;
+      color: #33ff33;
+      font-family: monospace;
+      overflow-x: hidden;
     }
-    .container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
+    .matrix {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
     }
-    .logo {
-      width: 200px;
-      display: block;
-      margin: 0 auto;
+    .terminal {
+      padding: 1em;
     }
-    header {
+    .output {
+      white-space: pre-wrap;
+    }
+    .input-line {
+      display: flex;
+      align-items: center;
+    }
+    .prompt {
+      margin-right: 0.5em;
+    }
+    .fake-login {
       text-align: center;
-      margin-bottom: 30px;
+      margin-top: 20px;
     }
-    .tagline {
-      font-size: 1.2em;
-      color: #00cc00;
+    #system-info, #clock {
+      margin-top: 1em;
+      color: #0f0;
     }
-    nav {
-      text-align: center;
-      margin-bottom: 30px;
+    .online {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #111;
+      padding: 5px 10px;
+      border: 1px solid #0f0;
     }
-    nav a {
-      color: #00ff00;
-      margin: 0 15px;
+    .telegram {
+      margin-top: 1em;
+    }
+    .telegram a {
+      color: #0ff;
       text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      color: #00cc00;
-      text-shadow: 0 0 10px #00ff00;
-    }
-    h1, h2 {
-      color: #00ff00;
-    }
-    ul {
-      list-style-type: square;
-      padding-left: 20px;
-    }
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 0.9em;
-      color: #00aa00;
     }
   </style>
 </head>
 <body>
-  <canvas id="starCanvas" style="position: fixed; top: 0; left: 0; z-index: -1;"></canvas>
-  <div class="container">
-    <header>
-      <img src="logo.png" alt="HACKPACK Logo" class="logo" />
-      <h1>HACKPACK</h1>
-      <p class="tagline">Хакерские проекты и эксперименты</p>
-    </header>
 
-    <nav>
-      <a href="#about">О нас</a>
-      <a href="#projects">Проекты</a>
-      <a href="https://t.me/vipcam1977" target="_blank">Telegram</a>
-    </nav>
+<canvas class="matrix" id="matrix"></canvas>
 
-    <main>
-      <section id="about">
-        <h2 style="color:lime;">▶ Видео с проекта</h2>
-        <video controls width="100%" style="border: 2px solid lime;">
-          <source src="video.mp4" type="video/mp4">
-          Ваш браузер не поддерживает воспроизведение видео.
-        </video>
+<div class="online">🧑‍💻 HACKERS ONLINE: 13</div>
 
-        <h2>О нас</h2>
-        <p>Добро пожаловать на официальный сайт команды HACKPACK. Здесь публикуются наши проекты, эксперименты и хаки.</p>
-
-        <h2 style="color:lime;">⬇ Скачать архив</h2>
-        <a href="NESCA_4.rar" download style="color:lime; font-size:18px;">
-          📁 Скачать NESCA_4.rar
-        </a>
-
-        <h2 style="color:lime;">🌐 Ваш IP-адрес</h2>
-        <p id="ip-info">Загрузка...</p>
-      </section>
-
-      <section id="projects">
-        <h2>Проекты</h2>
-        <ul>
-          <li>🔓 YouTube Views Bot</li>
-          <li>💣 Telegram Goblin Miner Game</li>
-          <li>🧠 AI Nude Character Generator</li>
-        </ul>
-      </section>
-
-      <section id="donate" style="text-align:center; margin-top: 40px;">
-        <h2 style="color: #00ff00; font-family: monospace;">💸 Поддержи проект HACKPACK</h2>
-        <a href="https://boosty.to/hackpack1977/donate" target="_blank">
-          <button style="background-color:#ff8c00;color:#fff;padding:12px 24px;font-size:16px;border:none;border-radius:8px;cursor:pointer;">
-            Перейти на Boosty
-          </button>
-        </a>
-      </section>
-    </main>
-
-    <footer>
-      <p>&copy; 2025 HACKPACK | <a href="https://t.me/vipcam1977" target="_blank">Связаться через Telegram</a></p>
-    </footer>
+<div class="terminal">
+  <div class="fake-login">
+    <h2>🔒 Введите пароль доступа:</h2>
+    <input type="password" id="passwordInput" placeholder="•••••••" onkeydown="checkEnter(event)">
+    <div id="loginStatus"></div>
   </div>
 
-  <!-- IP Fetch -->
-  <script>
-    fetch('https://ipwho.is/')
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          document.getElementById('ip-info').textContent =
-            `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
-        } else {
-          document.getElementById('ip-info').textContent = 'Не удалось определить IP.';
-        }
-      })
-      .catch(() => {
-        document.getElementById('ip-info').textContent = 'Ошибка при получении данных.';
-      });
-  </script>
+  <div id="terminalArea" style="display:none;">
+    <div class="output" id="output"></div>
+    <div class="input-line">
+      <span class="prompt">&gt;</span>
+      <input type="text" id="cmdInput" onkeydown="handleCommand(event)">
+    </div>
 
-  <!-- Stars Animation -->
-  <script>
-    const canvas = document.getElementById('starCanvas');
-    const ctx = canvas.getContext('2d');
+    <div id="system-info"></div>
+    <div id="clock"></div>
 
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
+    <div class="telegram">
+      📩 Связь: <a href="https://t.me/vipcam1977" target="_blank">@vipcam1977</a>
+    </div>
+  </div>
+</div>
 
-    const stars = [];
-    for (let i = 0; i < 300; i++) {
-      stars.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        radius: Math.random() < 0.1 ? 2 + Math.random() * 2 : 0.5 + Math.random() * 1,
-        alpha: Math.random(),
-        delta: Math.random() * 0.02
-      });
-    }
-
-    function drawStars() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let star of stars) {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(0, 255, 0, ${star.alpha})`;
-        ctx.fill();
-        star.alpha += star.delta;
-        if (star.alpha <= 0 || star.alpha >= 1) {
-          star.delta = -star.delta;
-        }
+<script>
+  // Fake login
+  function checkEnter(e) {
+    if (e.key === 'Enter') {
+      const val = document.getElementById("passwordInput").value;
+      const status = document.getElementById("loginStatus");
+      if (val === "hackpack") {
+        status.innerText = "✅ Доступ разрешён.";
+        document.querySelector(".fake-login").style.display = "none";
+        document.getElementById("terminalArea").style.display = "block";
+        showSystemInfo();
+        startClock();
+      } else {
+        status.innerText = "❌ Неверный пароль.";
       }
-      requestAnimationFrame(drawStars);
     }
+  }
 
-    drawStars();
-  </script>
+  // Terminal simulation
+  function handleCommand(e) {
+    if (e.key === "Enter") {
+      const input = document.getElementById("cmdInput");
+      const output = document.getElementById("output");
+      const command = input.value;
+      output.innerText += `> ${command}\n`;
 
-  <!-- IP Logging -->
-  <script>
-    fetch('log_ip.php')
-      .then(response => response.text())
-      .then(data => console.log('IP Logged:', data));
-  </script>
+      switch(command.trim()) {
+        case "whoami":
+          output.innerText += "guest\n";
+          break;
+        case "nmap 127.0.0.1":
+          output.innerText += "Scanning...\nHost is up (0.00031s latency).\nAll ports closed.\n";
+          break;
+        case "clear":
+          output.innerText = "";
+          break;
+        default:
+          output.innerText += "Unknown command\n";
+      }
+      input.value = "";
+      output.scrollTop = output.scrollHeight;
+    }
+  }
 
-  <!-- Tawk.to Live Chat -->
-  <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/6821006a112db0190bc0b42b/1ir0ej8lj';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    })();
-  </script>
+  // System info
+  function showSystemInfo() {
+    const sys = document.getElementById("system-info");
+    sys.innerText = `🌐 Browser: ${navigator.userAgent}\n🖥️ Screen: ${screen.width}x${screen.height}`;
+  }
+
+  // Clock
+  function startClock() {
+    const clock = document.getElementById("clock");
+    setInterval(() => {
+      const now = new Date();
+      clock.innerText = `🕒 ${now.toLocaleString()}`;
+    }, 1000);
+  }
+
+  // Matrix animation
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  const letters = "01".split("");
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({ length: columns }).fill(1);
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0F0";
+    ctx.font = fontSize + "px monospace";
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 33);
+</script>
+
 </body>
 </html>
