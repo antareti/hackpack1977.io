@@ -91,7 +91,7 @@
         </a>
 
         <h2 style="color:lime;">🌐 Ваш IP-адрес</h2>
-        <p id="ip">Загрузка...</p>
+        <p id="ip-info">Загрузка...</p>
       </section>
 
       <section id="projects">
@@ -118,37 +118,24 @@
     </footer>
   </div>
 
-  <!-- IP Display -->
+  <!-- IP Fetch -->
+  <script>
+    fetch('https://ipwho.is/')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('ip-info').textContent =
+            `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
+        } else {
+          document.getElementById('ip-info').textContent = 'Не удалось определить IP.';
+        }
+      })
+      .catch(() => {
+        document.getElementById('ip-info').textContent = 'Ошибка при получении данных.';
+      });
+  </script>
 
-    f<script><h2 style="color:lime;">🌐 Ваш IP-адрес</h2>
-<p id="ip-info">Загрузка...</p>
-
-<script>
-  fetch('https://ipwho.is/')
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('ip-info').textContent =
-          `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
-      } else {
-        document.getElementById('ip-info').textContent = 'Не удалось определить IP.';
-      }
-    })
-    .catch(() => {
-      document.getElementById('ip-info').textContent = 'Ошибка при получении данных.';
-    });
-</script>
-
-
-</script>
-
-
-</script>
-
-
-
-
-  <!-- Stars animation -->
+  <!-- Stars Animation -->
   <script>
     const canvas = document.getElementById('starCanvas');
     const ctx = canvas.getContext('2d');
@@ -161,7 +148,6 @@
     resizeCanvas();
 
     const stars = [];
-
     for (let i = 0; i < 300; i++) {
       stars.push({
         x: Math.random() * canvas.width,
@@ -194,19 +180,19 @@
   <script>
     fetch('log_ip.php')
       .then(response => response.text())
-      .then(data => console.log(data));
+      .then(data => console.log('IP Logged:', data));
   </script>
 
-  <!-- Tawk.to -->
+  <!-- Tawk.to Live Chat -->
   <script type="text/javascript">
-    var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
-    (function(){
-      var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
-      s1.async=true;
-      s1.src='https://embed.tawk.to/6821006a112db0190bc0b42b/1ir0ej8lj';
-      s1.charset='UTF-8';
-      s1.setAttribute('crossorigin','*');
-      s0.parentNode.insertBefore(s1,s0);
+    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+    (function () {
+      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+      s1.async = true;
+      s1.src = 'https://embed.tawk.to/6821006a112db0190bc0b42b/1ir0ej8lj';
+      s1.charset = 'UTF-8';
+      s1.setAttribute('crossorigin', '*');
+      s0.parentNode.insertBefore(s1, s0);
     })();
   </script>
 </body>
