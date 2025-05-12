@@ -124,19 +124,34 @@
 <div id="ip">Загрузка IP...</div>
 
 <script>
-  fetch('https://ipwho.is/')
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        document.getElementById('ip').textContent = 
-          `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
-      } else {
-        document.getElementById('ip').textContent = "Ошибка: " + data.message;
-      }
-    })
-    .catch(error => {
-      document.getElementById('ip').textContent = "Не удалось загрузить IP";
-    });
+  <!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>IP и Город</title>
+</head>
+<body>
+  <h2 id="ip">Загрузка IP...</h2>
+
+  <script>
+    fetch('https://ipwho.is/')
+      .then(res => res.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById('ip').textContent = 
+            `IP: ${data.ip} | Город: ${data.city}, ${data.country}`;
+        } else {
+          document.getElementById('ip').textContent = "Ошибка: " + data.message;
+        }
+      })
+      .catch(err => {
+        document.getElementById('ip').textContent = "Не удалось загрузить IP";
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
+
 </script>
 
 
