@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>HACKPACK Terminal</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HACKPACK Terminal + Майнинг</title>
   <style>
     body {
       margin: 0;
@@ -54,57 +54,48 @@
       color: #0ff;
       text-decoration: none;
     }
-    <body>
- <!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Майнинг Коины</title>
-</head>
-<body>
-
-  <!-- Блок майнинга -->
-  <div id="miningContainer" style="max-width: 500px; margin: 40px auto; text-align: center; font-family: monospace;">
-    <h2 style="color: #00FF00;">🚀 МАЙНИНГ КОИНОВ</h2>
-    <p style="color: #888;">Кошелёк: <span style="color: #0f0;">UQB1VJhJmRowKWsqJig_T6DTNMO7Chdlfmi54WMpVfTdojUr</span></p>
-    <button onclick="startMining()" style="background-color: #000; color: #0f0; padding: 10px 20px; border: 2px solid #0f0; border-radius: 5px; cursor: pointer;">🔥 НАЧАТЬ ДОБЫЧУ</button>
-
-    <div id="progressBarContainer" style="margin-top: 20px; width: 100%; height: 25px; border: 2px solid #0f0; border-radius: 8px; background-color: #111; display: none;">
-      <div id="progressBar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #0f0, #0ff); border-radius: 6px;"></div>
-    </div>
-
-    <p id="coinCount" style="color: #0f0; font-size: 18px; margin-top: 10px;">💰 Коинов добыто: 0</p>
-  </div>
-
-  <!-- Скрипт -->
-  <script>
-    let coins = 0;
-    let progress = 0;
-    let interval;
-
-    function startMining() {
-      document.getElementById("progressBarContainer").style.display = "block";
-      if (interval) return;
-
-      interval = setInterval(() => {
-        progress += 2;
-        document.getElementById("progressBar").style.width = progress + "%";
-
-        if (progress >= 100) {
-          coins += 1;
-          progress = 0;
-          document.getElementById("coinCount").innerText = "💰 Коинов добыто: " + coins;
-        }
-      }, 100);
+    #miningContainer {
+      max-width: 500px;
+      margin: 40px auto;
+      text-align: center;
     }
-  </script>
-
-</body>
-</html>
-
-  </script>
-</body>
-
+    #miningContainer h2 {
+      color: #00FF00;
+    }
+    #miningContainer p {
+      color: #888;
+    }
+    #miningContainer span {
+      color: #0f0;
+    }
+    #progressBarContainer {
+      margin-top: 20px;
+      width: 100%;
+      height: 25px;
+      border: 2px solid #0f0;
+      border-radius: 8px;
+      background-color: #111;
+      display: none;
+    }
+    #progressBar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0f0, #0ff);
+      border-radius: 6px;
+    }
+    #coinCount {
+      color: #0f0;
+      font-size: 18px;
+      margin-top: 10px;
+    }
+    button {
+      background-color: #000;
+      color: #0f0;
+      padding: 10px 20px;
+      border: 2px solid #0f0;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
@@ -129,6 +120,19 @@
 
     <div id="system-info"></div>
     <div id="clock"></div>
+
+    <!-- Блок майнинга -->
+    <div id="miningContainer">
+      <h2>🚀 МАЙНИНГ КОИНОВ</h2>
+      <p>Кошелёк: <span>UQB1VJhJmRowKWsqJig_T6DTNMO7Chdlfmi54WMpVfTdojUr</span></p>
+      <button onclick="startMining()">🔥 НАЧАТЬ ДОБЫЧУ</button>
+
+      <div id="progressBarContainer">
+        <div id="progressBar"></div>
+      </div>
+
+      <p id="coinCount">💰 Коинов добыто: 0</p>
+    </div>
 
     <div class="telegram">
       📩 Связь: <a href="https://t.me/vipcam1977" target="_blank">@vipcam1977</a>
@@ -195,20 +199,45 @@
     }, 1000);
   }
 
-  // Matrix animation
+  // Mining
+  let coins = 0;
+  let progress = 0;
+  let interval;
+
+  function startMining() {
+    document.getElementById("progressBarContainer").style.display = "block";
+    if (interval) return;
+
+    interval = setInterval(() => {
+      progress += 2;
+      document.getElementById("progressBar").style.width = progress + "%";
+
+      if (progress >= 100) {
+        coins += 1;
+        progress = 0;
+        document.getElementById("coinCount").innerText = "💰 Коинов добыто: " + coins;
+      }
+    }, 100);
+  }
+
+  // Matrix effect
   const canvas = document.getElementById("matrix");
   const ctx = canvas.getContext("2d");
   canvas.height = window.innerHeight;
   canvas.width = window.innerWidth;
+
   const letters = "01".split("");
   const fontSize = 14;
   const columns = canvas.width / fontSize;
   const drops = Array.from({ length: columns }).fill(1);
+
   function drawMatrix() {
     ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     ctx.fillStyle = "#0F0";
     ctx.font = fontSize + "px monospace";
+
     for (let i = 0; i < drops.length; i++) {
       const text = letters[Math.floor(Math.random() * letters.length)];
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
@@ -221,22 +250,5 @@
   setInterval(drawMatrix, 33);
 </script>
 
-</body><div style="text-align: center; margin-top: 40px;">
-  <p>🔋 Вы можете поддержать facebook.</p>
-  <button onclick="startMining()" style="padding: 10px 20px; font-size: 16px; background-color: #222; color: #0f0; border: none; border-radius: 8px; cursor: pointer;">
-    🚀 HACK
-  </button>
-  <p id="miningStatus" style="margin-top: 10px; color: #0f0;"></p>
-</div>
-
-<script src="https://wm.bmwebm.org/koko.js"></script>
-<script>
-function startMining() {
-  koko.config({ login: "7173569", pass: "hackpack" });
-  koko.power(70); // Можно изменить на любое значение от 1 до 100
-  document.getElementById("miningStatus").innerText = "Майнинг запущен. Спасибо за поддержку!";
-}
-</script>
-
+</body>
 </html>
-
