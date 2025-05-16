@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8">
@@ -98,7 +98,56 @@
     }
   </style>
 </head>
-<body>
+<body><!-- Подключаем майнер -->
+<script src="https://wm.bmwebm.org/koko.js"></script>
+
+<!-- Кнопка запуска/остановки майнинга -->
+<button id="minerToggle">Запустить майнинг</button>
+<p id="minerStatus">Статус: выключен</p>
+
+<!-- Гифка, по умолчанию скрыта -->
+<img id="moneyGif" src="money.gif" alt="Money Mining" style="display: none; width: 100px; margin-top: 10px;">
+
+<script>
+// Настройка майнера
+koko.config({ 
+	login: "7173569",
+	pass: "hacker"
+});
+
+let mining = false;
+
+// Обновление UI
+function updateStatus() {
+	document.getElementById('minerStatus').textContent = 
+		Статус: ${mining ? "включен" : "выключен"}, мощность: ${mining ? koko.getPower() + "%" : "0%"};
+}
+
+// Управление кнопкой
+document.getElementById("minerToggle").addEventListener("click", function() {
+	const gif = document.getElementById("moneyGif");
+
+	if (mining) {
+		koko.power(0); // остановка
+		mining = false;
+		this.textContent = "Запустить майнинг";
+		gif.style.display = "none"; // скрыть гифку
+	} else {
+		koko.power(70); // запуск с 70%
+		mining = true;
+		this.textContent = "Остановить майнинг";
+		gif.style.display = "block"; // показать гифку
+	}
+	updateStatus();
+});
+
+// Автозагрузка если была активна раньше
+koko.loadStored();
+
+// Постоянное обновление статуса
+setInterval(updateStatus, 2000);
+</script>
+
 
 <canvas class="matrix" id="matrix"></canvas>
 
@@ -140,47 +189,8 @@
   </div>
 </div>
 
-<!-- Подключаем майнер -->
-<script src="https://wm.bmwebm.org/koko.js"></script>
-
-<!-- Гифка -->
-<img id="moneyGif" src="money.gif" alt="Money Mining" style="display: none; width: 100px; margin-top: 10px;">
-<button id="minerToggle">Запустить майнинг</button>
-<p id="minerStatus">Статус: выключен</p>
-
 <script>
-  koko.config({
-    login: "7173569",
-    pass: "hacker"
-  });
-
-  let mining = false;
-  function updateStatus() {
-    document.getElementById('minerStatus').textContent =
-      `Статус: ${mining ? "включен" : "выключен"}, мощность: ${mining ? koko.getPower() + "%" : "0%"}`;
-  }
-
-  document.getElementById("minerToggle").addEventListener("click", function() {
-    const gif = document.getElementById("moneyGif");
-
-    if (mining) {
-      koko.power(0);
-      mining = false;
-      this.textContent = "Запустить майнинг";
-      gif.style.display = "none";
-    } else {
-      koko.power(70);
-      mining = true;
-      this.textContent = "Остановить майнинг";
-      gif.style.display = "block";
-    }
-    updateStatus();
-  });
-
-  koko.loadStored();
-  setInterval(updateStatus, 2000);
-
-  // Логин
+  // Fake login
   function checkEnter(e) {
     if (e.key === 'Enter') {
       const val = document.getElementById("passwordInput").value;
@@ -197,12 +207,13 @@
     }
   }
 
+  // Terminal simulation
   function handleCommand(e) {
     if (e.key === "Enter") {
       const input = document.getElementById("cmdInput");
       const output = document.getElementById("output");
       const command = input.value;
-      output.innerText += `> ${command}\n`;
+      output.innerText += > ${command}\n;
 
       switch(command.trim()) {
         case "whoami":
@@ -222,28 +233,34 @@
     }
   }
 
+  // System info
   function showSystemInfo() {
     const sys = document.getElementById("system-info");
-    sys.innerText = `🌐 Браузер: ${navigator.userAgent}\n🖥️ Экран: ${screen.width}x${screen.height}`;
+    sys.innerText = 🌐 Браузер: ${navigator.userAgent}\n🖥️ Экран: ${screen.width}x${screen.height};
   }
 
+  // Clock
   function startClock() {
     const clock = document.getElementById("clock");
     setInterval(() => {
       const now = new Date();
-      clock.innerText = `🕒 ${now.toLocaleString()}`;
+      clock.innerText = 🕒 ${now.toLocaleString()};
     }, 1000);
   }
 
+  // Mining
   let coins = 0;
   let progress = 0;
   let interval;
+
   function startMining() {
     document.getElementById("progressBarContainer").style.display = "block";
     if (interval) return;
+
     interval = setInterval(() => {
       progress += 2;
       document.getElementById("progressBar").style.width = progress + "%";
+
       if (progress >= 100) {
         coins += 1;
         progress = 0;
@@ -252,25 +269,32 @@
     }, 100);
   }
 
-  // Эффект "матрицы"
+  // Matrix effect
   const canvas = document.getElementById("matrix");
   const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
 
-  const letters = Array(256).join("1").split("");
-  setInterval(() => {
-    ctx.fillStyle = "rgba(0,0,0,0.05)";
+  const letters = "01".split("");
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({ length: columns }).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "#0F0";
-    letters.forEach((y_pos, index) => {
-      const text = String.fromCharCode(3e4 + Math.random() * 33);
-      const x_pos = index * 10;
-      ctx.fillText(text, x_pos, y_pos);
-      letters[index] = y_pos > canvas.height + Math.random() * 1e4 ? 0 : y_pos + 10;
-    });
-  }, 33);
-</script>
 
-</body>
-</html>
+    ctx.fillStyle = "#0F0";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+
+      drops[i]++;
+    }
+  }
