@@ -3,6 +3,41 @@
   <div style="display: flex; justify-content: space-between; align-items: center;">
     <h1 style="color: #0f0; margin: 0;">💰💰💰 HackMoney</h1>☢️☢️☢️
     <nav>
+<canvas class="matrix":<div id="splashScreen" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: black;
+  color: #0f0;
+  font-family: monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  z-index: 9999;
+">
+  <h1 style="font-size: 32px;">💀 Инициализация терминала...</h1>
+  <p id="splashDots">.</p>
+</div>
+<script>// Splash screen dots animation
+let dotCount = 0;
+const dotsEl = document.getElementById("splashDots");
+const splashInterval = setInterval(() => {
+  dotCount = (dotCount + 1) % 4;
+  dotsEl.innerText = '.'.repeat(dotCount) || '.';
+}, 500);
+
+// Удаляем splash экран через 3 секунды
+setTimeout(() => {
+  clearInterval(splashInterval);
+  document.getElementById("splashScreen").style.opacity = 0;
+  setTimeout(() => {
+    document.getElementById("splashScreen").style.display = "none";
+  }, 1000);
+}, 3000);
+
       <a href="#home" style="color: #0f0; margin: 0 15px; text-decoration: none;">Главная</a>
       <a href="#projects" style="color: #0f0; margin: 0 15px; text-decoration: none;">Проекты</a>
       <a href="#blog" style="color: #0f0; margin: 0 15px; text-decoration: none;">Блог</a>
