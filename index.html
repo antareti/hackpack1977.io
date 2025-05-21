@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta name="google-site-verification" content="Cv6KmzJPeb9-CSZfWmE2tbF81ScF_i5GPI4cU9wzb4w" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="google-site-verification" content="Cv6KmzJPeb9-CSZfWmE2tbF81ScF_i5GPI4cU9wzb4w" />
   <title>HACKPACK Terminal + Майнинг</title>
   <style>
     body {
@@ -129,10 +129,120 @@
   </div>
 </header>
 
-<!-- дальше остальной код -->
-
 <canvas class="matrix" id="matrix"></canvas>
 
 <div class="online">🧑‍💻 HACKERS ONLINE: 13</div>
 
-<!-- остальной код остается без изменений -->
+<div class="terminal">
+  <div class="fake-login">
+    <h2>🔒 Введите пароль доступа:</h2>
+    <input type="password" id="passwordInput" placeholder="•••••••" onkeydown="checkEnter(event)">
+    <div id="loginStatus"></div>
+  </div>
+
+  <div id="terminalArea" style="display:none;">
+    <div class="output" id="output"></div>
+    <div class="input-line">
+      <span class="prompt">&gt;</span>
+      <input type="text" id="cmdInput" onkeydown="handleCommand(event)">
+    </div>
+
+    <div id="system-info"></div>
+    <div id="clock"></div>
+
+    <div id="miningContainer">
+      <h2>🚀 МАЙНИНГ КОИНОВ</h2>
+      <p>Кошелёк: <span>UQB1VJhJmRowKWsqJig_T6DTNMO7Chdlfmi54WMpVfTdojUr</span></p>
+      <button onclick="startMining()">🔥 НАЧАТЬ ДОБЫЧУ</button>
+
+      <div id="progressBarContainer">
+        <div id="progressBar"></div>
+      </div>
+
+      <p id="coinCount">💰 Коинов добыто: 0</p>
+    </div>
+
+    <div class="telegram">
+      📩 Связь: <a href="https://t.me/vipcam1977" target="_blank">@vipcam1977</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  function checkEnter(e) {
+    if (e.key === 'Enter') {
+      const val = document.getElementById("passwordInput").value;
+      const status = document.getElementById("loginStatus");
+      if (val === "hackpack") {
+        status.innerText = "✅ Доступ разрешён.";
+        document.querySelector(".fake-login").style.display = "none";
+        document.getElementById("terminalArea").style.display = "block";
+        showSystemInfo();
+        startClock();
+      } else {
+        status.innerText = "❌ Неверный пароль.";
+      }
+    }
+  }
+
+  function handleCommand(e) {
+    if (e.key === "Enter") {
+      const input = document.getElementById("cmdInput");
+      const output = document.getElementById("output");
+      const command = input.value;
+      output.innerText += `> ${command}\n`;
+
+      switch(command.trim()) {
+        case "whoami":
+          output.innerText += "guest\n";
+          break;
+        case "nmap 127.0.0.1":
+          output.innerText += "Scanning...\nHost is up (0.00031s latency).\nAll ports closed.\n";
+          break;
+        case "clear":
+          output.innerText = "";
+          break;
+        default:
+          output.innerText += "Unknown command\n";
+      }
+      input.value = "";
+      output.scrollTop = output.scrollHeight;
+    }
+  }
+
+  function showSystemInfo() {
+    const sys = document.getElementById("system-info");
+    sys.innerText = `🌐 Browser: ${navigator.userAgent}\n🖥️ Screen: ${screen.width}x${screen.height}`;
+  }
+
+  function startClock() {
+    const clock = document.getElementById("clock");
+    setInterval(() => {
+      const now = new Date();
+      clock.innerText = `🕒 ${now.toLocaleString()}`;
+    }, 1000);
+  }
+
+  let coins = 0;
+  let progress = 0;
+  let interval;
+
+  function startMining() {
+    document.getElementById("progressBarContainer").style.display = "block";
+    if (interval) return;
+
+    interval = setInterval(() => {
+      progress += 2;
+      document.getElementById("progressBar").style.width = progress + "%";
+
+      if (progress >= 100) {
+        coins += 1;
+        progress = 0;
+        document.getElementById("coinCount").innerText = `💰 Коинов добыто: ${coins}`;
+      }
+    }, 200);
+  }
+</script>
+
+</body>
+</html>
