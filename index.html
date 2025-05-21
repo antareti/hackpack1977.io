@@ -19,55 +19,6 @@
       left: 0;
       z-index: -1;
     }
-
-    /* --- СТАРТОВЫЙ ЭКРАН --- */
-    #startScreen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: black;
-      color: #0f0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      font-size: 2em;
-      z-index: 9999;
-    }
-    #startScreen::after {
-      content: "Инициализация системы...";
-      animation: blink 1s step-start infinite;
-      margin-top: 20px;
-      font-size: 0.7em;
-    }
-    @keyframes blink {
-      50% { opacity: 0; }
-    }
-
-    /* --- ХЕДЕР --- */
-    header {
-      background-color: #000;
-      padding: 20px;
-      border-bottom: 2px solid #0f0;
-      font-family: 'Courier New', monospace;
-    }
-    header div {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      color: #0f0;
-      margin: 0;
-    }
-    header nav a {
-      color: #0f0;
-      margin: 0 15px;
-      text-decoration: none;
-    }
-
     .terminal {
       padding: 1em;
     }
@@ -150,17 +101,16 @@
 </head>
 <body>
 
-<div id="startScreen">💻 HACKPACK INIT...</div>
-
-<header>
-  <div>
-    <h1>💰💰💰 HackMoney</h1>☢️☢️☢️
+<!-- 💥 ВСТАВЛЕННЫЙ ХЕДЕР -->
+<header style="background-color: #000; padding: 20px; border-bottom: 2px solid #0f0; font-family: 'Courier New', monospace;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="color: #0f0; margin: 0;">💰💰💰 HackMoney</h1>☢️☢️☢️
     <nav>
-      <a href="#home">Главная</a>
-      <a href="#projects">Проекты</a>
-      <a href="#blog">Блог</a>
-      <a href="#contact">Контакты</a>
-      <a href="https://t.me/+3v93hQGL735kZGIy" target="_blank">Telegram</a>
+      <a href="#home" style="color: #0f0; margin: 0 15px; text-decoration: none;">Главная</a>
+      <a href="#projects" style="color: #0f0; margin: 0 15px; text-decoration: none;">Проекты</a>
+      <a href="#blog" style="color: #0f0; margin: 0 15px; text-decoration: none;">Блог</a>
+      <a href="#contact" style="color: #0f0; margin: 0 15px; text-decoration: none;">Контакты</a>
+      <a href="https://t.me/+3v93hQGL735kZGIy" target="_blank" title="Наш Telegram" style="color: #0f0; margin: 0 15px; text-decoration: none;">Telegram</a>
     </nav>
   </div>
 </header>
@@ -170,7 +120,7 @@
 <div class="online">🧑‍💻 HACKERS ONLINE: 13</div>
 
 <div class="terminal">
-  <div class="fake-login" id="loginArea" style="display:none;">
+  <div class="fake-login">
     <h2>🔒 Введите пароль доступа:</h2>
     <input type="password" id="passwordInput" placeholder="•••••••" onkeydown="checkEnter(event)">
     <div id="loginStatus"></div>
@@ -190,7 +140,11 @@
       <h2>🚀 МАЙНИНГ КОИНОВ</h2>
       <p>Кошелёк: <span>UQB1VJhJmRowKWsqJig_T6DTNMO7Chdlfmi54WMpVfTdojUr</span></p>
       <button onclick="startMining()">🔥 НАЧАТЬ ДОБЫЧУ</button>
-      <div id="progressBarContainer"><div id="progressBar"></div></div>
+
+      <div id="progressBarContainer">
+        <div id="progressBar"></div>
+      </div>
+
       <p id="coinCount">💰 Коинов добыто: 0</p>
     </div>
 
@@ -201,21 +155,13 @@
 </div>
 
 <script>
-  // Стартовый экран
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('startScreen').style.display = 'none';
-      document.getElementById('loginArea').style.display = 'block';
-    }, 3000); // 3 секунды
-  });
-
   function checkEnter(e) {
     if (e.key === 'Enter') {
       const val = document.getElementById("passwordInput").value;
       const status = document.getElementById("loginStatus");
       if (val === "hackpack") {
         status.innerText = "✅ Доступ разрешён.";
-        document.getElementById("loginArea").style.display = "none";
+        document.querySelector(".fake-login").style.display = "none";
         document.getElementById("terminalArea").style.display = "block";
         showSystemInfo();
         startClock();
@@ -234,11 +180,14 @@
 
       switch(command.trim()) {
         case "whoami":
-          output.innerText += "guest\n"; break;
+          output.innerText += "guest\n";
+          break;
         case "nmap 127.0.0.1":
-          output.innerText += "Scanning...\nHost is up (0.00031s latency).\nAll ports closed.\n"; break;
+          output.innerText += "Scanning...\nHost is up (0.00031s latency).\nAll ports closed.\n";
+          break;
         case "clear":
-          output.innerText = ""; break;
+          output.innerText = "";
+          break;
         default:
           output.innerText += "Unknown command\n";
       }
@@ -271,12 +220,13 @@
     interval = setInterval(() => {
       progress += 2;
       document.getElementById("progressBar").style.width = progress + "%";
+
       if (progress >= 100) {
         coins++;
-        document.getElementById("coinCount").innerText = `💰 Коинов добыто: ${coins}`;
         progress = 0;
+        document.getElementById("coinCount").innerText = `💰 Коинов добыто: ${coins}`;
       }
-    }, 100);
+    }, 200);
   }
 </script>
 
